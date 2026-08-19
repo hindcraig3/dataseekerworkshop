@@ -3,14 +3,15 @@
 -- =============================================================================
 -- Prerequisites:
 --   1. Run 01_create_objects.sql first to create database, schema, and tables
---   2. Upload CSV files to the internal stage:
+--   2. Upload CSV files to the internal stage using CLI or manually upload via Snowsight:
 --     snow stage copy ./setup/data_generation/output/  @workshop_data_stage --no-auto-compress --database TM_WORKSHOP --schema SAMPLEDATA
 -- =============================================================================
 
 SET DATABASE_NAME = 'TM_WORKSHOP';
+SET SCHEMA_NAME = 'SAMPLEDATA';
 
 USE DATABASE IDENTIFIER($DATABASE_NAME);
-USE SCHEMA SAMPLEDATA;
+USE SCHEMA IDENTIFIER($SCHEMA_NAME);
 
 -- TRUNCATE TABLE to allwo for data reload.
 -- TRUNCATE TABLE USERS;
