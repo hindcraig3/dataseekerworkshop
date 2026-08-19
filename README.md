@@ -76,7 +76,7 @@ By the end of this workshop, participants will be able to:
 
 1. **Exercise 2a — Simple Query from Plain English**
    
-   1.1 Create a new **SQL file** in your workspace uisng the **Add File** button or by adding a new **tab** to the workspace.
+   1.1 Create a new **SQL file** in your workspace using the **Add File** button or by adding a new **tab** to the workspace.
    
    1.2 Rename it to **Module2.sql**. 
    
@@ -157,14 +157,14 @@ By the end of this workshop, participants will be able to:
 4. **Wrap-up** CoCo is great for creating and modifying SQL queries against your Snowflake data. It knows Snowflake, it knows SQL, and it has hte context about you data it needs to create the queries. 
 
 **Module 2 Snowflake Skills / Features:**
-- Workspaces "diff" feature to see what additonals, dleetions, and changes CoCo makes to your queries
+- Workspaces "diff" feature to see what additions, deletions, and changes CoCo makes to your queries
 - Leveraging CoCo to write simple and advanced SQL queries.
 - Understanding that you can provide CoCo with "context" which could be a table, or an entire schema or database. 
-- Lerveraging CoCo to help you understand what a SQL query is in plain lanaguage. 
+- leveraging CoCo to help you understand what a SQL query is in plain language. 
 
 # Module 3 - Advanced Analysis and creating re-usable skills:
 
-4. **Exercise 3a — Building a mutli-step Analysis**
+4. **Exercise 3a — Building a multi-step Analysis**
 
    Often you may have the need to produce some insight that may need multiple queries to produce the data you need. You could build these up 1 at a time but we can also get CoCo to accelerate this kind of analysis. You can even use CoCo to help identify and refine the requirements. 
 
@@ -173,7 +173,7 @@ By the end of this workshop, participants will be able to:
 
    4.2 Create a new CoCo session by clicking the **+** icon at the **Top** of the CoCo pane. This will give a new chat window with no history
 
-   > :bulb: Managing session context is really important. The context window has limited space so when you start a new task or job, it pays to create a new sesion. You can have mutliple sessions going at once if you need to perform multiple tasks.  
+   > :bulb: Managing session context is really important. The context window has limited space so when you start a new task or job, it pays to create a new session. You can have multiple sessions going at once if you need to perform multiple tasks.  
    
    4.3 In the CoCo panel toggle the **Plan** switch to the **on** position. Planning allows CoCo to think about how it will solve a problem and present a plan that you can review before it writes any code. This is a really useful step especially for more complex tasks.
 
@@ -195,12 +195,12 @@ By the end of this workshop, participants will be able to:
 
    Note CoCo may ask you some questions. These may include:
 
-   - Clarifyign if you only want to include listigns from the marketplace_listings table - Answer "Marketplace Listings" only.
+   - clarifying if you only want to include listings from the marketplace_listings table - Answer "Marketplace Listings" only.
    - Clarifying what "Category" column you want to use as there are category and sub category fields - Choose the CATEGORY field
    - If you want one query or multiple queries - Choose multiple / separate queries
    - Clarifying the rules for "Sold vs Unsold" - You want any status that is not sold = Unsold. 
 
-   Once CoCo has finished review the plan it came up with. Note that it has outlined the proposed queries it will create. Also note the additonal suggested insights. If you wanted to you get iterate on the plan with CoCo to get it to the ideal state. 
+   Once CoCo has finished review the plan it came up with. Note that it has outlined the proposed queries it will create. Also note the additional suggested insights. If you wanted to you get iterate on the plan with CoCo to get it to the ideal state. 
 
    4.5 Toggle the **Plan** switch to the **off** position.
    
@@ -264,7 +264,7 @@ By the end of this workshop, participants will be able to:
    You've built a solid multi-step analysis, and generate a HTML report, but this is a statics asset. We need to be able to re-create this each month or when. Now you'll package it as a **CoCo Skill** — a reusable prompt file that lets anyone (including future-you) run this same analysis with a single command.
 
 
-   6.1 Toggle the **Plan** siwtch tothe **on** position
+   6.1 Toggle the **Plan** switch to the **on** position
 
    6.2 Copy and paste the following prompt into CoCo
 
@@ -272,9 +272,9 @@ By the end of this workshop, participants will be able to:
    I want to make the report generator a re-usable asset. Help me create a new CoCo skill that will enable me to: Ask the user what month and year they want to run the report for. Default to the previous month. Runs the SQL queries and produce a new HTML file Ensure the file name  includes the Month and year, and a timestamp for report run.
    ```
 
-   Once CoCO has finsihed review the plan. 
+   Once CoCO has finished review the plan. 
 
-   6.3 Toggle the **Plan** siwtch to the **off** position then copy and paste the following prompt into CoCo:
+   6.3 Toggle the **Plan** switch to the **off** position then copy and paste the following prompt into CoCo:
 
    ```
    Proceed with the build
@@ -282,7 +282,7 @@ By the end of this workshop, participants will be able to:
 
    Once CoCo has finished creating your new skill test it out. Don't forget to click the **Keep All** changes button.
 
-   6.4 In the CoCo chat box type **/marketplace** . You shoudl see your new skill appear in thethe search results under **Personal Skills**
+   6.4 In the CoCo chat box type **/marketplace** . You should see your new skill appear in the search results under **Personal Skills**
 
    ![](/assets/cocoskill.png)
 
@@ -290,7 +290,7 @@ By the end of this workshop, participants will be able to:
 
    CoCO will then load the skill. It should prompt you to enter the Month and Year. **Pick July 2026** and click submit. CoCo will now run the report.
 
-   Once it is complete you shoudl see a new HTML file appear in your workspaces file list. 
+   Once it is complete you should see a new HTML file appear in your workspaces file list. 
 
  6.5 Currently you cannot render HTML files in Workspaces so you will need to **Download** the HTML to your laptop to view it. To do this:
     - Click the HTML file in the Workspaces file pane
@@ -322,13 +322,13 @@ By the end of this workshop, participants will be able to:
 
 4.1 Create a new CoCo session by clicking the **+** icon at the **Top** of the CoCo pane. 
 
-> :bulb: Managing session context is really important. The context window has limited space so when you start a new task or job, it pays to create a new session. You can have mutliple sessions going at once. 
+> :bulb: Managing session context is really important. The context window has limited space so when you start a new task or job, it pays to create a new session. You can have multiple sessions going at once. 
 
 4.2 Toggle the **Plan** mode switch to **on**. 
 
 4.3 Copy and paste the following prompt into CoCo. 
 
-> NOTE: For the purposes of the workshop we have developed a fariy comprehensive prompt. In the real world you could leverage CoCo to help you design the app, then ask it to create a prompt that you can use to generate the app.  Or you could upload a set of requirements, or a mock up even, and ask CoCo to build off that. 
+> NOTE: For the purposes of the workshop we have developed a comprehensive prompt. In the real world you could leverage CoCo to help you design the app, then ask it to create a prompt that you can use to generate the app.  Or you could upload a set of requirements, or a mock up even, and ask CoCo to build off that. 
 
 ```
 Build an interactive Streamlit app in a new workspace folder called "marketplace-listings-app" 
@@ -359,7 +359,7 @@ self-service analytics for ad-hoc exploration, and presentation-ready views for 
 - YoY decline in new listings: yellow warning
 ```
 
-CoCo may ask you some clarification questions. Answer them as best you can.  Once you have answered the questions CoCo will develope the plan. Once complete review the plan.
+CoCo may ask you some clarification questions. Answer them as best you can.  Once you have answered the questions CoCo will develop the plan. Once complete review the plan.
 
 4.4 Now you have reviewed the plan ask coco to build. Copy and paste the following prompt :
 
@@ -373,7 +373,7 @@ CoCo will built your Stream lit application. It may take a few minutes for the b
 
 ![](/assets/cocostreamlitfiles.png)
 
-4.6 When the file opens you shoudl see a blue **Run** button in the top left hand corner. Click the **Run** button. 
+4.6 When the file opens you should see a blue **Run** button in the top left hand corner. Click the **Run** button. 
 
 ![](/assets/cocostreamlitrun.png)
 
