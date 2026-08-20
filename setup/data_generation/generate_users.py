@@ -104,7 +104,7 @@ def generate_preferences(segment):
 
 def generate_users():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    filepath = os.path.join(OUTPUT_DIR, "users.csv")
+    filepath = os.path.join(OUTPUT_DIR, "members.csv")
 
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)

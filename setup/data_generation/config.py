@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 # Time range for data generation
 # =============================================================================
 DATA_START_DATE = datetime(2023, 8, 1)
-DATA_END_DATE = datetime(2026, 7, 31)
+DATA_END_DATE = datetime(2026, 8, 26)
 USER_REGISTRATION_START = datetime(2001, 1, 1)
 
 # =============================================================================

@@ -4,18 +4,24 @@
 -- Usage: Set the DATABASE_NAME variable below, then execute this entire script.
 -- =============================================================================
 
-SET DATABASE_NAME = 'TM_WORKSHOP';
-SET SCHEMA_NAME = 'SAMPLEDATA';
+SET DATABASE_NAME = 'ANALYTICS';
+SET SCHEMA_NAME = 'SANDBOX';
 
+-- =============================================================================
+-- USe if database and schema do not exist.
+-- =============================================================================
+-- Create database and schema
+CREATE DATABASE IF NOT EXISTS IDENTIFIER($DATABASE_NAME);
 USE DATABASE IDENTIFIER($DATABASE_NAME);
+
+CREATE SCHEMA IF NOT EXISTS IDENTIFIER($SCHEMA_NAME);
 USE SCHEMA IDENTIFIER($SCHEMA_NAME);
 
--- Create database and schema
--- CREATE DATABASE IF NOT EXISTS IDENTIFIER($DATABASE_NAME);
--- USE DATABASE IDENTIFIER($DATABASE_NAME);
-
--- CREATE SCHEMA IF NOT EXISTS IDENTIFIER($DATABASE_NAME).SAMPLEDATA;
--- USE SCHEMA SAMPLEDATA;
+-- =============================================================================
+--Use if database and schema already exsit
+-- =============================================================================
+--USE DATABASE IDENTIFIER($DATABASE_NAME);
+--USE SCHEMA IDENTIFIER($SCHEMA_NAME);
 
 -- File format for CSV loading
 CREATE OR REPLACE FILE FORMAT csv_format
@@ -30,29 +36,29 @@ CREATE OR REPLACE FILE FORMAT csv_format
 CREATE OR REPLACE STAGE workshop_data_stage
     FILE_FORMAT = csv_format;
 
+
 -- =============================================================================
--- USERS
+-- MEMBERS
 -- =============================================================================
-CREATE OR REPLACE TABLE USERS (
-    user_id             INT             NOT NULL,
-    username            VARCHAR(200)    NOT NULL    COMMENT 'Login username - email or handle',
-    first_name          VARCHAR(100)               COMMENT 'First name (Individual users only)',
-    last_name           VARCHAR(100)               COMMENT 'Last name (Individual users only)',
+CREATE OR REPLACE TABLE WORKSHOP__MEMBERS (
+    member_id             INT             NOT NULL,
+    membername            VARCHAR(200)    NOT NULL    COMMENT 'Login membername - email or handle',
+    first_name          VARCHAR(100)               COMMENT 'First name (Individual memberss only)',
+    last_name           VARCHAR(100)               COMMENT 'Last name (Individual members only)',
     business_name       VARCHAR(200)               COMMENT 'Business name (Business/Power Seller only)',
-    user_segment        VARCHAR(50)     NOT NULL    COMMENT 'Individual, Business, or Power Seller',
+    member_segment        VARCHAR(50)     NOT NULL    COMMENT 'Individual, Business, or Power Seller',
     region              VARCHAR(100)    NOT NULL    COMMENT 'NZ region',
     city                VARCHAR(100)    NOT NULL,
     registration_date   DATE            NOT NULL,
     preferences         VARIANT                    COMMENT 'JSON: notification prefs, interests, saved searches'
 )
-COMMENT = 'Trade Me registered users (anonymised for workshop)';
-
+COMMENT = 'Trade Me registered members (anonymised for workshop)';
 -- =============================================================================
 -- MARKETPLACE_LISTINGS
 -- =============================================================================
-CREATE OR REPLACE TABLE MARKETPLACE_LISTINGS (
+CREATE OR REPLACE TABLE WORKSHOP__MARKETPLACE_LISTINGS (
     listing_id          INT             NOT NULL,
-    user_id             INT             NOT NULL    COMMENT 'FK to USERS',
+    member_id             INT             NOT NULL    COMMENT 'FK to MEMBERSS',
     category            VARCHAR(100)    NOT NULL    COMMENT 'Top-level category',
     subcategory         VARCHAR(100)    NOT NULL,
     title               VARCHAR(500)    NOT NULL,
@@ -72,13 +78,12 @@ CREATE OR REPLACE TABLE MARKETPLACE_LISTINGS (
     bid_count           INT             NOT NULL    DEFAULT 0
 )
 COMMENT = 'General marketplace listings: buy/sell consumer goods';
-
 -- =============================================================================
 -- MOTORS_LISTINGS
 -- =============================================================================
-CREATE OR REPLACE TABLE MOTORS_LISTINGS (
+CREATE OR REPLACE TABLE WORKSHOP__MOTORS_LISTINGS (
     listing_id          INT             NOT NULL,
-    user_id             INT             NOT NULL    COMMENT 'FK to USERS',
+    member_id             INT             NOT NULL    COMMENT 'FK to MEMBERS',
     vehicle_type        VARCHAR(50)     NOT NULL    COMMENT 'Car, SUV, Ute, Van, Motorcycle, Boat, Motorhome',
     make                VARCHAR(100)    NOT NULL,
     model               VARCHAR(100)    NOT NULL,
@@ -101,13 +106,12 @@ CREATE OR REPLACE TABLE MOTORS_LISTINGS (
     enquiry_count       INT             NOT NULL    DEFAULT 0
 )
 COMMENT = 'Vehicle listings: cars, motorcycles, boats, motorhomes';
-
 -- =============================================================================
 -- PROPERTY_LISTINGS
 -- =============================================================================
-CREATE OR REPLACE TABLE PROPERTY_LISTINGS (
+CREATE OR REPLACE TABLE WORKSHOP__PROPERTY_LISTINGS (
     listing_id          INT             NOT NULL,
-    user_id             INT             NOT NULL    COMMENT 'FK to USERS - typically agent (Business)',
+    member_id             INT             NOT NULL    COMMENT 'FK to MEMBERS - typically agent (Business)',
     listing_type        VARCHAR(50)     NOT NULL    COMMENT 'Sale, Rent, Auction, Tender, Deadline Sale',
     property_type       VARCHAR(50)     NOT NULL    COMMENT 'House, Apartment, Townhouse, Section, Lifestyle, Rural, Unit',
     bedrooms            INT,
@@ -129,13 +133,12 @@ CREATE OR REPLACE TABLE PROPERTY_LISTINGS (
     rateable_value      VARCHAR(50)                COMMENT 'Council RV e.g. $980,000'
 )
 COMMENT = 'Property listings: residential and commercial sale/rent';
-
 -- =============================================================================
 -- JOBS_LISTINGS
 -- =============================================================================
-CREATE OR REPLACE TABLE JOBS_LISTINGS (
+CREATE OR REPLACE TABLE WORKSHOP__JOBS_LISTINGS (
     listing_id          INT             NOT NULL,
-    user_id             INT             NOT NULL    COMMENT 'FK to USERS - employer or recruiter',
+    member_id             INT             NOT NULL    COMMENT 'FK to MEMBERS - employer or recruiter',
     industry            VARCHAR(100)    NOT NULL,
     subcategory         VARCHAR(100)    NOT NULL    COMMENT 'Role subcategory e.g. Management Accountants',
     role_type           VARCHAR(50)     NOT NULL    COMMENT 'Permanent, Contract, Temporary',
@@ -155,15 +158,14 @@ CREATE OR REPLACE TABLE JOBS_LISTINGS (
     application_count   INT             NOT NULL    DEFAULT 0
 )
 COMMENT = 'Job listings across all industries';
-
 -- =============================================================================
 -- CONTACTS
 -- =============================================================================
-CREATE OR REPLACE TABLE CONTACTS (
+CREATE OR REPLACE TABLE WORKSHOP__CONTACTS (
     contact_id              INT             NOT NULL,
     listing_id              INT                        COMMENT 'FK to one of the 4 listing tables',
     listing_source          VARCHAR(50)                COMMENT 'marketplace, motors, property, jobs',
-    user_id                 INT             NOT NULL   COMMENT 'FK to USERS - person who raised contact',
+    member_id                 INT             NOT NULL   COMMENT 'FK to memberS - person who raised contact',
     product_area            VARCHAR(50)     NOT NULL   COMMENT 'Marketplace, Motors, Property, Jobs',
     reason                  VARCHAR(100)    NOT NULL   COMMENT 'Billing, Fraud, Technical, Listing Quality, Delivery, Account',
     created_date            TIMESTAMP_NTZ   NOT NULL,
@@ -173,11 +175,10 @@ CREATE OR REPLACE TABLE CONTACTS (
     metadata                VARIANT                    COMMENT 'JSON: channel, priority, agent_id, tags, escalated'
 )
 COMMENT = 'Customer support contacts linked to listings';
-
 -- =============================================================================
 -- AD_REVENUE
 -- =============================================================================
-CREATE OR REPLACE TABLE AD_REVENUE (
+CREATE OR REPLACE TABLE WORKSHOP__AD_REVENUE (
     ad_id               INT             NOT NULL,
     campaign_id         VARCHAR(50)     NOT NULL,
     listing_id          INT                        COMMENT 'FK to one of the 4 listing tables',
@@ -191,21 +192,16 @@ CREATE OR REPLACE TABLE AD_REVENUE (
     campaign_metadata   VARIANT                    COMMENT 'JSON: advertiser_name, budget, target_audience, duration_days'
 )
 COMMENT = 'Daily advertising revenue events across all product areas';
-
 -- =============================================================================
 -- APPLICATIONS
 -- =============================================================================
-CREATE OR REPLACE TABLE APPLICATIONS (
+CREATE OR REPLACE TABLE WORKSHOP__APPLICATIONS (
     application_id      INT             NOT NULL,
     listing_id          INT             NOT NULL   COMMENT 'FK to JOBS_LISTINGS',
-    user_id             INT             NOT NULL   COMMENT 'FK to USERS - applicant',
+    member_id             INT             NOT NULL   COMMENT 'FK to MEMBERS - applicant',
     applied_date        TIMESTAMP_NTZ   NOT NULL,
     status              VARCHAR(50)     NOT NULL   COMMENT 'submitted, viewed, shortlisted, rejected',
     source              VARCHAR(50)     NOT NULL   COMMENT 'Trade Me, Direct, Referral'
-)
-COMMENT = 'Job applications submitted against Jobs listings';
-
-
 )
 COMMENT = 'Job applications submitted against Jobs listings';
 

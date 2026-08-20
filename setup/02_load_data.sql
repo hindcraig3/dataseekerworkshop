@@ -4,17 +4,17 @@
 -- Prerequisites:
 --   1. Run 01_create_objects.sql first to create database, schema, and tables
 --   2. Upload CSV files to the internal stage using CLI or manually upload via Snowsight:
---     snow stage copy ./setup/data_generation/output/  @workshop_data_stage --no-auto-compress --database TM_WORKSHOP --schema SAMPLEDATA
+--     snow stage copy ./setup/data_generation/output/  @workshop_data_stage --no-auto-compress --database ANALYTICS --schema SANDBOX
 -- =============================================================================
 
-SET DATABASE_NAME = 'TM_WORKSHOP';
-SET SCHEMA_NAME = 'SAMPLEDATA';
+SET DATABASE_NAME = 'ANALYTICS';
+SET SCHEMA_NAME = 'SANDBOX';
 
 USE DATABASE IDENTIFIER($DATABASE_NAME);
 USE SCHEMA IDENTIFIER($SCHEMA_NAME);
 
--- TRUNCATE TABLE to allwo for data reload.
--- TRUNCATE TABLE USERS;
+-- TRUNCATE TABLE to allow for data reload.
+-- TRUNCATE TABLE MEMBERS;
 -- TRUNCATE TABLE  MARKETPLACE_LISTINGS;
 -- TRUNCATE TABLE  MOTORS_LISTINGS;
 -- TRUNCATE TABLE  PROPERTY_LISTINGS;
@@ -22,10 +22,11 @@ USE SCHEMA IDENTIFIER($SCHEMA_NAME);
 -- TRUNCATE TABLE  CONTACTS;
 -- TRUNCATE TABLE  AD_REVENUE;
 -- TRUNCATE TABLE  APPLICATIONS;
+
 -- =============================================================================
--- USERS
+-- MEMBERS
 -- =============================================================================
-COPY INTO USERS (user_id, username, first_name, last_name, business_name, user_segment, region, city, registration_date, preferences)
+COPY INTO WORKSHOP__MEMBERS (member_id, membername, first_name, last_name, business_name, member_segment, region, city, registration_date, preferences)
 FROM (
     SELECT
         $1::INT,
@@ -38,16 +39,16 @@ FROM (
         $8::VARCHAR,
         $9::DATE,
         PARSE_JSON($10)
-    FROM @workshop_data_stage/users.csv
+    FROM @workshop_data_stage/members.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- MARKETPLACE_LISTINGS
 -- =============================================================================
-COPY INTO MARKETPLACE_LISTINGS (
-    listing_id, user_id, category, subcategory, title,
+COPY INTO WORKSHOP__MARKETPLACE_LISTINGS (
+    listing_id, member_id, category, subcategory, title,
     condition, asking_price, buy_now_price, region, city,
     status, listed_date, close_date, sold_date,
     shipping_available, accepts_offers, view_count, watchlist_count, bid_count
@@ -62,14 +63,14 @@ FROM (
         $15::BOOLEAN, $16::BOOLEAN, $17::INT, $18::INT, $19::INT
     FROM @workshop_data_stage/marketplace_listings.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- MOTORS_LISTINGS
 -- =============================================================================
-COPY INTO MOTORS_LISTINGS (
-    listing_id, user_id, vehicle_type, make, model,
+COPY INTO WORKSHOP__MOTORS_LISTINGS (
+    listing_id, member_id, vehicle_type, make, model,
     year, mileage_km, fuel_type, transmission, body_type,
     colour, engine_cc, registration_status, asking_price,
     region, city, status, listed_date, sold_date,
@@ -85,14 +86,14 @@ FROM (
         $20::INT, $21::INT, $22::INT
     FROM @workshop_data_stage/motors_listings.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- PROPERTY_LISTINGS
 -- =============================================================================
-COPY INTO PROPERTY_LISTINGS (
-    listing_id, user_id, listing_type, property_type,
+COPY INTO WORKSHOP__PROPERTY_LISTINGS (
+    listing_id, member_id, listing_type, property_type,
     bedrooms, bathrooms, parking_spaces, land_area_sqm,
     floor_area_sqm, year_built, region, city, suburb,
     asking_price, price_display, status, listed_date, sold_date,
@@ -110,14 +111,14 @@ FROM (
         $19::INT, $20::INT, NULLIF($21, 'NULL')::VARCHAR
     FROM @workshop_data_stage/property_listings.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- JOBS_LISTINGS
 -- =============================================================================
-COPY INTO JOBS_LISTINGS (
-    listing_id, user_id, industry, subcategory,
+COPY INTO WORKSHOP__JOBS_LISTINGS (
+    listing_id, member_id, industry, subcategory,
     role_type, employment_type, title, salary_min,
     salary_max, salary_display, region, city, status,
     listed_date, close_date, remote_option, experience_level,
@@ -133,14 +134,14 @@ FROM (
         $18::INT, $19::INT
     FROM @workshop_data_stage/jobs_listings.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- CONTACTS
 -- =============================================================================
-COPY INTO CONTACTS (
-    contact_id, listing_id, listing_source, user_id,
+COPY INTO WORKSHOP__CONTACTS (
+    contact_id, listing_id, listing_source, member_id,
     product_area, reason, created_date, resolved_date,
     resolution_time_hours, description, metadata
 )
@@ -152,13 +153,13 @@ FROM (
         NULLIF($9, 'NULL')::DECIMAL(8,2), $10::VARCHAR, PARSE_JSON($11)
     FROM @workshop_data_stage/contacts.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- AD_REVENUE
 -- =============================================================================
-COPY INTO AD_REVENUE (
+COPY INTO WORKSHOP__AD_REVENUE (
     ad_id, campaign_id, listing_id, listing_source,
     product_area, ad_type, impressions, clicks,
     revenue, event_date, campaign_metadata
@@ -170,14 +171,14 @@ FROM (
         $9::DECIMAL(10,2), $10::DATE, PARSE_JSON($11)
     FROM @workshop_data_stage/ad_revenue.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- APPLICATIONS
 -- =============================================================================
-COPY INTO APPLICATIONS (
-    application_id, listing_id, user_id,
+COPY INTO WORKSHOP__APPLICATIONS (
+    application_id, listing_id, member_id,
     applied_date, status, source
 )
 FROM (
@@ -186,18 +187,19 @@ FROM (
         $4::TIMESTAMP_NTZ, $5::VARCHAR, $6::VARCHAR
     FROM @workshop_data_stage/applications.csv
 )
-FILE_FORMAT = csv_format
+FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('NULL', '') FIELD_DELIMITER = ',' ESCAPE_UNENCLOSED_FIELD = NONE)
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- =============================================================================
 -- Verification queries
 -- =============================================================================
-SELECT 'USERS' AS table_name, COUNT(*) AS row_count FROM USERS
-UNION ALL SELECT 'MARKETPLACE_LISTINGS', COUNT(*) FROM MARKETPLACE_LISTINGS
-UNION ALL SELECT 'MOTORS_LISTINGS', COUNT(*) FROM MOTORS_LISTINGS
-UNION ALL SELECT 'PROPERTY_LISTINGS', COUNT(*) FROM PROPERTY_LISTINGS
-UNION ALL SELECT 'JOBS_LISTINGS', COUNT(*) FROM JOBS_LISTINGS
-UNION ALL SELECT 'CONTACTS', COUNT(*) FROM CONTACTS
-UNION ALL SELECT 'AD_REVENUE', COUNT(*) FROM AD_REVENUE
-UNION ALL SELECT 'APPLICATIONS', COUNT(*) FROM APPLICATIONS
+SELECT 'WORKSHOP__MEMBERS' AS table_name, COUNT(*) AS row_count FROM WORKSHOP__MEMBERS
+UNION ALL SELECT 'WORKSHOP__MARKETPLACE_LISTINGS', COUNT(*) FROM WORKSHOP__MARKETPLACE_LISTINGS
+UNION ALL SELECT 'WORKSHOP__MOTORS_LISTINGS', COUNT(*) FROM WORKSHOP__MOTORS_LISTINGS
+UNION ALL SELECT 'WORKSHOP__PROPERTY_LISTINGS', COUNT(*) FROM WORKSHOP__PROPERTY_LISTINGS
+UNION ALL SELECT 'WORKSHOP__JOBS_LISTINGS', COUNT(*) FROM WORKSHOP__JOBS_LISTINGS
+UNION ALL SELECT 'WORKSHOP__CONTACTS', COUNT(*) FROM WORKSHOP__CONTACTS
+UNION ALL SELECT 'WORKSHOP__AD_REVENUE', COUNT(*) FROM WORKSHOP__AD_REVENUE
+UNION ALL SELECT 'WORKSHOP__APPLICATIONS', COUNT(*) FROM WORKSHOP__APPLICATIONS
 ORDER BY table_name;
+
