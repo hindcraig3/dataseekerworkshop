@@ -107,7 +107,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
    3. Copy and paste the following prompt into CoCo and hit enter on your keyboard, or click the blue ***Send** icon in the chat field.
 
       ``` 
-      What tables are in the ANALYTICS.SANBOX schema?
+      What tables are in the ANALYTICS.SANDBOX schema that start with WORKSHOP?
       ```
    
       CoCo will run a metadata query to get a list of the tables. Note how CoCo provides some additional data such as Row Count and Description. 
@@ -118,7 +118,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
       How many job listings are there? 
       ```
 
-      Notice that CoCo just answered the question in the chat window? If you are curious you can see the SQL it generated and ran by clicking the "Expand" icon.  You can also get some insight into the process CoCo took to get the answer by clicking on the "Thinking Complete" link and the "Ran X Commands" link. (See screenshot below)
+      Notice that CoCo just answered the question in the chat window? If you are curious you can see the SQL it generated and ran by clicking the "Expand" icon.  (See screenshot below)
 
       ![](/assets/cocosqlexpand.png)
    
@@ -133,7 +133,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
 
    6. We actually have multiple "listings" tables in the database - Jobs, Motors, Marketplace, Property. What happens if you quickly want to check Motors listings? You could explicitly mention motors listings in your prompt but you can also provide CoCo with Context to guide it to the right database, schema, table, or view for example. 
 
-   7. Click the **+** icon in the CoCo window, then type MOTORS in the search box. The **WORKSHOP__MOTORS_LISTINGS** table should be displayed in the list. Click **WORKSHOP__MOTORS_LISTINGS** result to add this table as context for CoCo.
+   7. Click the **+** icon in the CoCo **chat** box, then type WORKSHOP__MOTORS in the search box. (NOTE there are 2 underscores in the name). The **WORKSHOP__MOTORS_LISTINGS** table should be displayed in the list. Click **WORKSHOP__MOTORS_LISTINGS** result to add this table as context for CoCo.
 
       ![](assets/cococontext.png)
 
@@ -399,8 +399,8 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
 
    ```
    Build an interactive Streamlit app in a new workspace folder called "marketplace-listings-app" 
-   that uses data from TM_WORKSHOP.SAMPLEDATA.MARKETPLACE_LISTINGS, TM_WORKSHOP.SAMPLEDATA.AD_REVENUE, 
-   and TM_WORKSHOP.SAMPLEDATA.CONTACTS tables.
+   that uses data from ANALYTICS.SANDBOX.WORKSHOP__MARKETPLACE_LISTINGS, ANALYTICS.SANDBOX.WORKSHOP__AD_REVENUE, 
+   and ANALYTICS.SANDBOX.WORKSHOP__CONTACTS tables.
 
    ## App Purpose
    A multi-purpose tool for marketplace listing team members: daily monitoring dashboard, 
