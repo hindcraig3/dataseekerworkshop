@@ -220,7 +220,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
 ✅ Understanding that you can provide CoCo with "context" which could be a table, or an entire schema or database.\
 ✅ Leveraging CoCo to help you understand what a SQL query is in plain language. 
 
-# Module 3 - Advanced Analysis and creating re-usable skills:
+### Module 3 - Advanced Analysis and creating re-usable skills:
 
 📗 **Exercise 3a — Building a multi-step Analysis**
 
@@ -467,7 +467,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
 
 
 
-# CONGRATULATIONS - you have reached the end of the workshop. 
+## CONGRATULATIONS - you have reached the end of the workshop. 
 
 To recap some of the CoCo specific things you learnt today:
 
