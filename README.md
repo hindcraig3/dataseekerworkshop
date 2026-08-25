@@ -32,18 +32,22 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
 **Flow:**
 
 📗 **Exercise 1a — Create Your Workspace and run a SQL query:**
+1. Validate your are using the **ANALYST** role by checking in the bottom left hand corner. ( It should show your use name and the **ANALYST** role)
    1. Select **Projects** then **Workspaces** from the left hand menu.
    2. Click the + icon at the top of the workspaces panel and select **Private Workspace**. Name your workspace:  `<your_name>_data_lab`. 
    3. Create a new SQL file inside your Workspace by clicking the **+ Add New** button and selecting **SQL file**
    4. Name the file : **Module1.sql**.  You will now have an empty worksheet ready to write some SQL. 
    5. Before we get started we need to set which database and schema we want to work with. to do this: \
-   5.1  In the top right hand corner of the worksheet click the database icon\
+   5.1 In the top right hand corner of the worksheet click the database icon\
    5.2  Select **ANALYTICS** from **Databases** list\
    5.3  Select **SANDBOX** from the **Schemas** list
 
       See the screen shot below for an example:\
       ![](/assets/workspacesetcontext.png)
 
+   5.4 Tot he left of the database name make sure your **ROLE** and **WAREHOUSE** are set correctly. They should be:
+      **ROLE:** ANALYST
+      **WAREHOUSE:** ANALYSER
    6. Copy and paste this query into the worksheet and run the query by clicking the blue **Run** button in the top left hand of the worksheet.
    
       ```
@@ -52,7 +56,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
   
       > **NOTE: if the query does not return any results, or you get an error, you may not have set the database and schema correctly.** 
 
-📗 **Exercise 1b - Explore the results tab:**
+📗 **Optional- Explore the results tab:**
  
    The results tab is where you can view, and work with, the results of a query.  
    
@@ -288,7 +292,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
 
       ```
 
-      I want to create a HTML report that shows the results of SQL queries that can be used in the leadership team meeting. 
+      I want to create a one off HTML report that shows the results of SQL queries that can be used in the leadership team meeting. 
       
       My requirements include: 
       The HTML report should be static and standalone 
@@ -380,7 +384,7 @@ This workshop is designed to introduce to CoCo - Snowflakes AI coding assistant.
 ---
 
 
-### Module 4 — Team-Ready Tools: Building a Streamlit App with CoCo *(50 min)*
+### Module 4 — Team-Ready Tools: Building a Streamlit App with CoCo (Optional if you have time)
 
 **Learning Objective:** Use CoCo to scaffold a simple Streamlit app that turns a recurring business question into a self-service tool any team member can use — without needing to maintain a dashboard or wait for an analyst.
 
